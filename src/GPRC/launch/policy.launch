@@ -5,10 +5,13 @@
         <!-- action -->
         <param name="scale" value="0.5"/>
         <rosparam param="default_joint_pos">
-            [0.0, 0.3, -0.6, 0.3, -0.6, 0.0,
-            0.3, -0.6, 0.3, -0.6, 0.0, 0.0,
-            0.1, -0.2, 0.0, 0.2, -0.1, 0.0, 0.0]
+            [0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0,]
         </rosparam>
+    </node>
+
+    <node pkg="GPRC" type="policy_tester.py" name="policy_tester" output="screen">
+        <param name="n_joints" value="12"/>   <!-- 根據 act_dim 設定 -->
     </node>
 
     <!-- rosserial node -->
