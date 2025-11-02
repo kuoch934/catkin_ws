@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/kch93/catkin_ws/src
+CMAKE_SOURCE_DIR = /home/user/catkin_ws/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kch93/catkin_ws/build
+CMAKE_BINARY_DIR = /home/user/catkin_ws/build
 
 # Utility rule file for _catkin_empty_exported_target.
 
@@ -63,10 +63,10 @@ rosserial_python/CMakeFiles/_catkin_empty_exported_target.dir/build: _catkin_emp
 .PHONY : rosserial_python/CMakeFiles/_catkin_empty_exported_target.dir/build
 
 rosserial_python/CMakeFiles/_catkin_empty_exported_target.dir/clean:
-	cd /home/kch93/catkin_ws/build/rosserial_python && $(CMAKE_COMMAND) -P CMakeFiles/_catkin_empty_exported_target.dir/cmake_clean.cmake
+	cd /home/user/catkin_ws/build/rosserial_python && $(CMAKE_COMMAND) -P CMakeFiles/_catkin_empty_exported_target.dir/cmake_clean.cmake
 .PHONY : rosserial_python/CMakeFiles/_catkin_empty_exported_target.dir/clean
 
 rosserial_python/CMakeFiles/_catkin_empty_exported_target.dir/depend:
-	cd /home/kch93/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kch93/catkin_ws/src /home/kch93/catkin_ws/src/rosserial_python /home/kch93/catkin_ws/build /home/kch93/catkin_ws/build/rosserial_python /home/kch93/catkin_ws/build/rosserial_python/CMakeFiles/_catkin_empty_exported_target.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/user/catkin_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/user/catkin_ws/src /home/user/catkin_ws/src/rosserial_python /home/user/catkin_ws/build /home/user/catkin_ws/build/rosserial_python /home/user/catkin_ws/build/rosserial_python/CMakeFiles/_catkin_empty_exported_target.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : rosserial_python/CMakeFiles/_catkin_empty_exported_target.dir/depend
 

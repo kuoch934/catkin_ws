@@ -1,10 +1,10 @@
 # CMake generated Testfile for 
-# Source directory: /home/kch93/catkin_ws/src
-# Build directory: /home/kch93/catkin_ws/build
+# Source directory: /home/user/catkin_ws/src
+# Build directory: /home/user/catkin_ws/build
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
 subdirs("gtest")
 subdirs("rosserial_python")
-subdirs("GPRC")
+subdirs("gprc")
 subdirs("rosserial_server")

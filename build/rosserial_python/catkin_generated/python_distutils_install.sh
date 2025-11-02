@@ -13,21 +13,21 @@ fi
 
 echo_and_run() { echo "+ $@" ; "$@" ; }
 
-echo_and_run cd "/home/kch93/catkin_ws/src/rosserial_python"
+echo_and_run cd "/home/user/catkin_ws/src/rosserial_python"
 
 # ensure that Python install destination exists
-echo_and_run mkdir -p "$DESTDIR/home/kch93/catkin_ws/install/lib/python3/dist-packages"
+echo_and_run mkdir -p "$DESTDIR/home/user/catkin_ws/install/lib/python3/dist-packages"
 
 # Note that PYTHONPATH is pulled from the environment to support installing
 # into one location when some dependencies were installed in another
 # location, #123.
 echo_and_run /usr/bin/env \
-    PYTHONPATH="/home/kch93/catkin_ws/install/lib/python3/dist-packages:/home/kch93/catkin_ws/build/lib/python3/dist-packages:$PYTHONPATH" \
-    CATKIN_BINARY_DIR="/home/kch93/catkin_ws/build" \
+    PYTHONPATH="/home/user/catkin_ws/install/lib/python3/dist-packages:/home/user/catkin_ws/build/lib/python3/dist-packages:$PYTHONPATH" \
+    CATKIN_BINARY_DIR="/home/user/catkin_ws/build" \
     "/usr/bin/python3" \
-    "/home/kch93/catkin_ws/src/rosserial_python/setup.py" \
+    "/home/user/catkin_ws/src/rosserial_python/setup.py" \
      \
-    build --build-base "/home/kch93/catkin_ws/build/rosserial_python" \
+    build --build-base "/home/user/catkin_ws/build/rosserial_python" \
     install \
     --root="${DESTDIR-/}" \
-    --install-layout=deb --prefix="/home/kch93/catkin_ws/install" --install-scripts="/home/kch93/catkin_ws/install/bin"
+    --install-layout=deb --prefix="/home/user/catkin_ws/install" --install-scripts="/home/user/catkin_ws/install/bin"

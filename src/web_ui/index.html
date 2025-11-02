@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>關節馬達即時調整面板</title>
+  <script src="https://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans TC", Arial, sans-serif; margin: 16px; }
+    .row { display: grid; grid-template-columns: 160px 1fr 84px 84px; gap: 8px; align-items: center; margin: 6px 0; }
+    .group { border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 16px; }
+    .group h3 { margin: 0 0 8px; font-size: 16px; }
+    input[type="range"] { width: 100%; }
+    .status { margin-bottom: 12px; }
+    .small { color: #666; font-size: 12px; }
+    .col-name { font-weight: 600; }
+    .btn { padding: 6px 10px; border: 1px solid #999; background: #f5f5f5; border-radius: 6px; cursor: pointer; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 12px; }
+    .row .val { text-align: right; }
+  </style>
+</head>
+<body>
+  <h2>關節馬達即時調整面板</h2>
+
+  <div class="status">
+    狀態：<span id="status">未連線</span>
+    <div class="small">請先在 ROS 主機執行 rosbridge: roslaunch rosbridge_server rosbridge_websocket.launch</div>
+  </div>
+
+  <div style="margin-bottom: 12px;">
+    rosbridge ws://<input id="host" value="localhost" style="width:160px;">:<input id="port" value="9090" style="width:80px;"> 
+    <button id="btnConnect" class="btn">連線</button>
+    <button id="btnDisconnect" class="btn" disabled>斷線</button>
+    <button id="btnZero" class="btn" title="將所有 slider 設為 0 並發布">全部歸零</button>
+  </div>
+
+  <div class="grid">
+    <div class="group">
+      <h3>GIM 與 RS（單軸）</h3>
+      <div class="row"><div class="col-name">GIM1</div><input type="range" min="-180" max="180" step="0.1" data-idx="0"><div class="val" id="v0">0.0</div><div class="val small" id="f0">-</div></div>
+      <div class="row"><div class="col-name">RS2</div><input type="range" min="-180" max="180" step="0.1" data-idx="1"><div class="val" id="v1">0.0</div><div class="val small" id="f1">-</div></div>
+      <div class="row"><div class="col-name">RS3</div><input type="range" min="-180" max="180" step="0.1" data-idx="2"><div class="val" id="v2">0.0</div><div class="val small" id="f2">-</div></div>
+      <div class="row"><div class="col-name">RS4</div><input type="range" min="-180" max="180" step="0.1" data-idx="3"><div class="val" id="v3">0.0</div><div class="val small" id="f3">-</div></div>
+      <div class="row"><div class="col-name">GIM7</div><input type="range" min="-180" max="180" step="0.1" data-idx="6"><div class="val" id="v6">0.0</div><div class="val small" id="f6">-</div></div>
+      <div class="row"><div class="col-name">RS8</div><input type="range" min="-180" max="180" step="0.1" data-idx="7"><div class="val" id="v7">0.0</div><div class="val small" id="f7">-</div></div>
+      <div class="row"><div class="col-name">RS9</div><input type="range" min="-180" max="180" step="0.1" data-idx="8"><div class="val" id="v8">0.0</div><div class="val small" id="f8">-</div></div>
+      <div class="row"><div class="col-name">RS10</div><input type="range" min="-180" max="180" step="0.1" data-idx="9"><div class="val" id="v9">0.0</div><div class="val small" id="f9">-</div></div>
+    </div>
+
+    <div class="group">
+      <h3>右踝</h3>
+      <div class="row"><div class="col-name">Right Roll</div><input type="range" min="-45" max="45" step="0.1" data-idx="4"><div class="val" id="v4">0.0</div><div class="val small" id="f4">-</div></div>
+      <div class="row"><div class="col-name">Right Pitch</div><input type="range" min="-45" max="45" step="0.1" data-idx="5"><div class="val" id="v5">0.0</div><div class="val small" id="f5">-</div></div>
+    </div>
+
+    <div class="group">
+      <h3>左踝</h3>
+      <div class="row"><div class="col-name">Left Roll</div><input type="range" min="-45" max="45" step="0.1" data-idx="10"><div class="val" id="v10">0.0</div><div class="val small" id="f10">-</div></div>
+      <div class="row"><div class="col-name">Left Pitch</div><input type="range" min="-45" max="45" step="0.1" data-idx="11"><div class="val" id="v11">0.0</div><div class="val small" id="f11">-</div></div>
+    </div>
+  </div>
+
+  <script>
+    const topicTarget = "/target_deg"; // std_msgs/Float32MultiArray
+    const topicJointDeg = "/joint_states_deg"; // sensor_msgs/JointState
+    const dataLength = 12;
+    const data = new Array(dataLength).fill(0.0);
+    let ros = null;
+    let pub = null;
+    let sub = null;
+    let pubTimer = null;
+
+    function $(q){ return document.querySelector(q); }
+    function $all(q){ return Array.from(document.querySelectorAll(q)); }
+
+    function setStatus(text, color){
+      const el = $("#status");
+      el.textContent = text;
+      el.style.color = color || "";
+    }
+
+    function connect(){
+      const host = $("#host").value.trim();
+      const port = $("#port").value.trim();
+      const url = `ws://${host}:${port}`;
+      if (ros){ ros.close(); ros = null; }
+      setStatus("連線中...", "#c47");
+      ros = new ROSLIB.Ros({ url });
+      ros.on('connection', () => {
+        setStatus(`已連線 ${url}`, "#090");
+        $("#btnConnect").disabled = true;
+        $("#btnDisconnect").disabled = false;
+
+        pub = new ROSLIB.Topic({ ros, name: topicTarget, messageType: 'std_msgs/Float32MultiArray' });
+        sub = new ROSLIB.Topic({ ros, name: topicJointDeg, messageType: 'sensor_msgs/JointState' });
+        sub.subscribe((msg) => {
+          if (!msg || !Array.isArray(msg.position)) return;
+          for (let i=0; i<Math.min(msg.position.length, dataLength); i++){
+            // msg.position 是度數（firmware 端已轉 deg）
+            const v = Number(msg.position[i]);
+            const el = document.getElementById(`f${i}`);
+            if (el) el.textContent = isFinite(v) ? v.toFixed(2) : "-";
+          }
+        });
+
+        // 節流：每 50 ms 將當前 data 發布一次
+        if (pubTimer) clearInterval(pubTimer);
+        pubTimer = setInterval(() => publishArray(), 50);
+      });
+      ros.on('error', (e) => {
+        setStatus(`連線錯誤: ${e?.message || e}`, "#c00");
+      });
+      ros.on('close', () => {
+        setStatus('未連線', "#000");
+        $("#btnConnect").disabled = false;
+        $("#btnDisconnect").disabled = true;
+        if (sub) { try { sub.unsubscribe(); } catch(_){} sub = null; }
+        pub = null;
+        if (pubTimer) { clearInterval(pubTimer); pubTimer = null; }
+      });
+    }
+
+    function disconnect(){ if (ros){ ros.close(); } }
+
+    function publishArray(){
+      if (!pub) return;
+      const msg = new ROSLIB.Message({
+        data,
+        layout: { dim: [], data_offset: 0 }
+      });
+      pub.publish(msg);
+    }
+
+    function setIdx(idx, val){
+      data[idx] = val;
+      const label = document.getElementById(`v${idx}`);
+      if (label) label.textContent = Number(val).toFixed(1);
+    }
+
+    function zeroAll(){
+      $all('input[type="range"]').forEach(sl => {
+        sl.value = 0;
+        setIdx(Number(sl.dataset.idx), 0);
+      });
+      publishArray();
+    }
+
+    // 初始化 UI 綁定
+    $all('input[type="range"]').forEach(sl => {
+      const idx = Number(sl.dataset.idx);
+      setIdx(idx, Number(sl.value));
+      sl.addEventListener('input', (e) => {
+        setIdx(idx, Number(e.target.value));
+      });
+      sl.addEventListener('change', publishArray);
+    });
+
+    $("#btnConnect").addEventListener('click', connect);
+    $("#btnDisconnect").addEventListener('click', disconnect);
+    $("#btnZero").addEventListener('click', zeroAll);
+
+  </script>
+</body>
+</html>
+
+

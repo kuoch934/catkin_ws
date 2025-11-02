@@ -1,4 +1,4 @@
-prefix=/home/kch93/catkin_ws/install
+prefix=/home/user/catkin_ws/install
 
 Name: rosserial_server
 Description: Description of rosserial_server

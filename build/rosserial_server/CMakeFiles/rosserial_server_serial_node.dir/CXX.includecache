@@ -6,39 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/kch93/catkin_ws/devel/include/rosserial_msgs/Log.h
-string
--
-vector
--
-memory
--
-ros/types.h
--
-ros/serialization.h
--
-ros/builtin_message_traits.h
--
-ros/message_operations.h
--
-
-/home/kch93/catkin_ws/devel/include/rosserial_msgs/TopicInfo.h
-string
--
-vector
--
-memory
--
-ros/types.h
--
-ros/serialization.h
--
-ros/builtin_message_traits.h
--
-ros/message_operations.h
--
-
-/home/kch93/catkin_ws/src/rosserial_server/include/rosserial_server/async_read_buffer.h
+/home/user/catkin_ws/src/rosserial_server/include/rosserial_server/async_read_buffer.h
 boost/bind.hpp
 -
 boost/asio.hpp
@@ -52,13 +20,13 @@ cstdint
 type_traits
 -
 
-/home/kch93/catkin_ws/src/rosserial_server/include/rosserial_server/msg_lookup.h
+/home/user/catkin_ws/src/rosserial_server/include/rosserial_server/msg_lookup.h
 string
 -
 stdexcept
 -
 
-/home/kch93/catkin_ws/src/rosserial_server/include/rosserial_server/serial_session.h
+/home/user/catkin_ws/src/rosserial_server/include/rosserial_server/serial_session.h
 iostream
 -
 boost/bind.hpp
@@ -68,9 +36,9 @@ boost/asio.hpp
 ros/ros.h
 -
 rosserial_server/session.h
-/home/kch93/catkin_ws/src/rosserial_server/include/rosserial_server/rosserial_server/session.h
+/home/user/catkin_ws/src/rosserial_server/include/rosserial_server/rosserial_server/session.h
 
-/home/kch93/catkin_ws/src/rosserial_server/include/rosserial_server/session.h
+/home/user/catkin_ws/src/rosserial_server/include/rosserial_server/session.h
 map
 -
 boost/bind.hpp
@@ -92,11 +60,11 @@ topic_tools/shape_shifter.h
 std_msgs/Time.h
 -
 rosserial_server/async_read_buffer.h
-/home/kch93/catkin_ws/src/rosserial_server/include/rosserial_server/rosserial_server/async_read_buffer.h
+/home/user/catkin_ws/src/rosserial_server/include/rosserial_server/rosserial_server/async_read_buffer.h
 rosserial_server/topic_handlers.h
-/home/kch93/catkin_ws/src/rosserial_server/include/rosserial_server/rosserial_server/topic_handlers.h
+/home/user/catkin_ws/src/rosserial_server/include/rosserial_server/rosserial_server/topic_handlers.h
 
-/home/kch93/catkin_ws/src/rosserial_server/include/rosserial_server/topic_handlers.h
+/home/user/catkin_ws/src/rosserial_server/include/rosserial_server/topic_handlers.h
 ros/ros.h
 -
 rosserial_msgs/TopicInfo.h
@@ -106,7 +74,7 @@ topic_tools/shape_shifter.h
 rosserial_server/msg_lookup.h
 -
 
-/home/kch93/catkin_ws/src/rosserial_server/src/serial_node.cpp
+/home/user/catkin_ws/src/rosserial_server/src/serial_node.cpp
 boost/asio.hpp
 -
 boost/bind.hpp
@@ -116,7 +84,7 @@ boost/thread.hpp
 ros/ros.h
 -
 rosserial_server/serial_session.h
-/home/kch93/catkin_ws/src/rosserial_server/src/rosserial_server/serial_session.h
+/home/user/catkin_ws/src/rosserial_server/src/rosserial_server/serial_session.h
 
 /opt/ros/noetic/include/ros/advertise_options.h
 ros/forwards.h
@@ -797,6 +765,38 @@ ros/forwards.h
 /opt/ros/noetic/include/ros/ros/forwards.h
 
 /opt/ros/noetic/include/rosconsole/macros_generated.h
+
+/opt/ros/noetic/include/rosserial_msgs/Log.h
+string
+-
+vector
+-
+memory
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
+
+/opt/ros/noetic/include/rosserial_msgs/TopicInfo.h
+string
+-
+vector
+-
+memory
+-
+ros/types.h
+-
+ros/serialization.h
+-
+ros/builtin_message_traits.h
+-
+ros/message_operations.h
+-
 
 /opt/ros/noetic/include/std_msgs/Time.h
 string

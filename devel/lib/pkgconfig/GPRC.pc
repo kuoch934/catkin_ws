@@ -1,8 +1,0 @@
-prefix=/home/kch93/catkin_ws/devel
-
-Name: GPRC
-Description: Description of GPRC
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

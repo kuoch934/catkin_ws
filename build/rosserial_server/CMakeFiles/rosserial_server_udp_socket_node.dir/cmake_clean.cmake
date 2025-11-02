@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/kch93/catkin_ws/devel/lib/rosserial_server/udp_socket_node"
-  "/home/kch93/catkin_ws/devel/lib/rosserial_server/udp_socket_node.pdb"
+  "/home/user/catkin_ws/devel/lib/rosserial_server/udp_socket_node"
+  "/home/user/catkin_ws/devel/lib/rosserial_server/udp_socket_node.pdb"
   "CMakeFiles/rosserial_server_udp_socket_node.dir/src/udp_socket_node.cpp.o"
 )
 
