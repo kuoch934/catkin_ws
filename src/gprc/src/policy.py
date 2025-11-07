@@ -3,7 +3,7 @@
 
 import rospy
 import numpy as np
-from std_msgs.msg import Float32MultiArray
+from std_msgs.msg import Float32MultiArray, Float64MultiArray
 from Policyfile.policy_runner import LoadedPolicy
 
 RAD2DEG = 180.0 / np.pi
@@ -46,8 +46,9 @@ class PolicyNode:
         self.joint_vel = np.zeros(self.policy.act_dim, dtype=np.float32)
         self.last_act  = np.zeros(self.policy.act_dim, dtype=np.float32)
 
-        # Publisher (degrees) - ensure it's created before the Timer callback runs
-        self.pub = rospy.Publisher('/cmd_joint_deg', Float32MultiArray, queue_size=1)
+        # Publishers (degrees) - ensure they're created before the Timer callback runs
+        self.pub_act = rospy.Publisher('/act', Float64MultiArray, queue_size=1)
+        self.pub_cmd = rospy.Publisher('/cmd_joint_deg', Float32MultiArray, queue_size=1)
 
         # Subscribers - connect to input topics
         rospy.Subscriber('/cmd_vel', Float32MultiArray, self.cb_cmd_vel)
@@ -91,7 +92,12 @@ class PolicyNode:
 
         # 發布前轉成 degree
         act_deg = act_rad * RAD2DEG
-        self.pub.publish(Float32MultiArray(data=act_deg.tolist()))
+        
+        # Publish to /act (Float64 for visualization)
+        self.pub_act.publish(Float64MultiArray(data=act_deg.astype(np.float64).tolist()))
+        
+        # Publish to /cmd_joint_deg (Float32 for serial)
+        self.pub_cmd.publish(Float32MultiArray(data=act_deg.tolist()))
 
 if __name__ == '__main__':
     rospy.init_node('policy')

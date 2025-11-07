@@ -1,9 +1,9 @@
 <launch>
     <!-- rosserial node -->
-    <!-- <node pkg="rosserial_python" type="serial_node.py" name="serial_node">
+    <node pkg="rosserial_python" type="serial_node.py" name="serial_node">
         <param name="port" value="/dev/ttyACM0" />
         <param name="baud" value="460800" />
-    </node> -->
+    </node>
     
     <!-- Policy node -->
     <node pkg="gprc" type="ps5_to_cmdvel.py" name="ps5_to_cmdvel_node" output="screen"></node>
@@ -16,7 +16,8 @@
         </rosparam>
     </node>
 
-    
+    <!-- 腿部可視化節點 -->
+    <node pkg="gprc" type="visualization.py" name="humanoid_visualizer_node" output="screen"></node>
 </launch>
 
 <!-- roslaunch gprc policy.launch -->
