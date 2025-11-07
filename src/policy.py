@@ -46,6 +46,16 @@ class PolicyNode:
         self.joint_vel = np.zeros(self.policy.act_dim, dtype=np.float32)
         self.last_act  = np.zeros(self.policy.act_dim, dtype=np.float32)
 
+        # Publisher (degrees) - ensure it's created before the Timer callback runs
+        self.pub = rospy.Publisher('/cmd_joint_deg', Float32MultiArray, queue_size=1)
+
+        # Subscribers - connect to input topics
+        rospy.Subscriber('/cmd_vel', Float32MultiArray, self.cb_cmd_vel)
+        rospy.Subscriber('/base_vel', Float32MultiArray, self.cb_base_vel)
+        rospy.Subscriber('/proj_g', Float32MultiArray, self.cb_proj_g)
+        rospy.Subscriber('/joint_pos', Float32MultiArray, self.cb_joint_pos)
+        rospy.Subscriber('/joint_vel', Float32MultiArray, self.cb_joint_vel)
+
         # Timer
         self.timer = rospy.Timer(rospy.Duration(0.04), self.step)  # 50hz
 
