@@ -58,7 +58,7 @@ class PolicyNode:
         rospy.Subscriber('/joint_vel', Float32MultiArray, self.cb_joint_vel)
 
         # Timer
-        self.timer = rospy.Timer(rospy.Duration(0.04), self.step)  # 50hz
+        self.timer = rospy.Timer(rospy.Duration(0.1), self.step)  # 10hz
 
     # ===== Callbacks =====
     def cb_cmd_vel(self, msg): self.cmd_vel = np.array(msg.data, dtype=np.float32)
