@@ -1,14 +1,12 @@
 <launch>
     <!-- rosserial node -->
-    <node pkg="rosserial_python" type="serial_node.py" name="serial_node">
+    <!-- <node pkg="rosserial_python" type="serial_node.py" name="serial_node">
         <param name="port" value="/dev/ttyACM0" />
-        <param name="baud" value="921600" />
-    </node>
+        <param name="baud" value="460800" />
+    </node> -->
     
     <!-- Policy node -->
-    <!-- <node pkg="gprc" type="ps5_to_cmdvel.py" name="ps5_to_cmdvel_node" output="screen"></node> -->
-    
-    
+    <node pkg="gprc" type="ps5_to_cmdvel.py" name="ps5_to_cmdvel_node" output="screen"></node>
     <node pkg="gprc" type="policy.py" name="policy_node" output="screen">
         <!-- action -->
         <param name="scale" value="0.5"/>
